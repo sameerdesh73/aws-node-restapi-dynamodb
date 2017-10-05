@@ -1,0 +1,21 @@
+{
+  "name": "aws-node-restapi-dynamodb",
+  "version": "1.0.0",
+  "description": "REST API with NodeJS, Express and DynanoDB",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sameerdesh73/aws-node-restapi-dynamodb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sameerdesh73/aws-node-restapi-dynamodb/issues"
+  },
+  "homepage": "https://github.com/sameerdesh73/aws-node-restapi-dynamodb#readme"
+}
