@@ -2,13 +2,16 @@ var express        = require('express');
 
 var app            = express();
 
-//Add the routes
-// routes = require('./routes/todo')(app);
+// require our routes/users.js file 
+var todoApiRoute = require("./routes/todo");
 
-app.listen(8080);
-console.log('Magic happens on port 8080'); 			// shoutout to the user
 
 // First example router
 app.get('/', function(req, res) {
-  res.send("Hello world!");
+  res.send("todo application");
 });
+
+app.use('/v1/todo', todoApiRoute);
+
+app.listen(8080);
+console.log('Magic happens on port 8080'); 			// shoutout to the user
