@@ -8,7 +8,7 @@ var todoApiRoute = require("./routes/todo");
 
 // First example router
 app.get('/', function(req, res) {
-  res.send("todo application");
+  res.send("Welcome to todo application");
 });
 
 app.use('/v1/todo', todoApiRoute);
