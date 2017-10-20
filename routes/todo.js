@@ -10,9 +10,6 @@ const express        = require('express');
 const HttpStatusCode = require('http-status-codes');
 const todoController = require("../controllers/todo");
 
-
-//const todoController    = require('../controllers/todo');
-
 // Create the express router object for todos
 var todoRouter = express.Router();
 
