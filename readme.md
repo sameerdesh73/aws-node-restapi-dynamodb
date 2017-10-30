@@ -17,7 +17,17 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 aws dynamodb get-item --table-name todo --endpoint-url http://localhost:8000
 aws dynamodb batch-get-item --table-name todo --endpoint-url http://localhost:8000
 
+To Check into git
+======================
+
+git add .
+git commit -m 'comments....'
+git push origin master
+
+
+
 To setup solution
+=========================
 
 npm install
 
