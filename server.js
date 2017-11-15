@@ -3,6 +3,11 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 console.log('Now the value for Port is:', process.env.PORT);
+console.log('Value for AWS_REGION is:', process.env.AWS_REGION);
+console.log('Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
+
+
+
 
 var express        = require('express');
 

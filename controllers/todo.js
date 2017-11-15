@@ -7,14 +7,17 @@ http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-exampl
 var todoController;
 
 exports.readAll = function(){
+  
+    console.log('Inside Readall - Value for AWS_REGION is:', process.env.AWS_REGION);
+    console.log('Inside Readall - Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
 
   var AWS = require("aws-sdk");
   
   AWS.config.update({
-    region: "us-west-2",
-    endpoint: "http://localhost:8000"
+    region: process.env.AWS_REGION, // "us-west-2",
+    endpoint: process.env.AWS_ENDPOINT //"http://localhost:8000"
   });
-  
+
   var docClient = new AWS.DynamoDB.DocumentClient();
   
   console.log("Querying all tasks that are not started yet");
@@ -58,10 +61,14 @@ exports.create = function(){
     
     var dynamodb = new AWS.DynamoDB();
 
+    var dateTime = require('node-datetime');
+    var dt = dateTime.create();
+    var dtformatted = dt.format('Y-m-d H:M:S');
+
     var params = {
         TableName: 'todo',
         Item: {
-          'Task' : {S: 'Task 1'},
+          'Task' : {S: 'Task 1 ' + dtformatted},
           'Status' : {S: 'Not Started'},
         }
       };
