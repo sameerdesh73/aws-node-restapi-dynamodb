@@ -14,11 +14,15 @@ const todoController = require("../controllers/todo");
 var todoRouter = express.Router();
 
 // A GET to the root of a resource returns a list of that resource
-todoRouter.get("/", function(req, res) { 
-    todoController.readAll();
-    res.HttpStatus = HttpStatusCode.OK;
-    res.send("todo: list")
-});
+// todoRouter.get("/", function(req, res) { 
+//     var result = todoController.readAll();
+//     res.HttpStatus = HttpStatusCode.OK;
+//     console.log("recd data at router");
+//     console.log(result);
+//     res.send(result);
+// });
+
+todoRouter.get("/", todoController.readAll);
 
 // A POST to the root of a resource should create a new object
 todoRouter.post("/", function(req, res) { 

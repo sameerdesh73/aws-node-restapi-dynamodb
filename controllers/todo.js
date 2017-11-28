@@ -5,8 +5,10 @@ http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-exampl
 'use strict';
 
 var todoController;
+const HttpStatusCode = require('http-status-codes');
 
-exports.readAll = function(){
+
+exports.readAll = function(req, res){
   
     console.log('Inside Readall - Value for AWS_REGION is:', process.env.AWS_REGION);
     console.log('Inside Readall - Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
@@ -36,12 +38,15 @@ exports.readAll = function(){
   docClient.scan(params, function(err, data) {
       if (err) {
           console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+          res.HttpStatus = HttpStatusCode.INTERNAL_SERVER_ERROR;
       } else {
           console.log("Query succeeded.");
           console.log('Count: ' + data.Count);
           data.Items.forEach(function(item) {
               console.log(" -", item.Task + ": " + item.Status);
           });
+          res.HttpStatus = HttpStatusCode.OK;
+          res.json(data);
       }
   });  
 };
