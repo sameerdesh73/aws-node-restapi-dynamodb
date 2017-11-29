@@ -5,8 +5,10 @@ http://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-exampl
 'use strict';
 
 var todoController;
+const HttpStatusCode = require('http-status-codes');
 
-exports.readAll = function(callback){
+
+exports.readAll = function(req, res, next){
     try
     {
 
@@ -38,24 +40,27 @@ exports.readAll = function(callback){
         
         docClient.scan(params, function(err, data) {
             if (err) {
-                var errorText = JSON.stringify(err, null, 2);
-                console.error("Unable to query. Error:", errorText);
-                return callback(new Error(errorText));
+                var errorText = JSON.stringify(err, null, 2);                
+                console.log("todoController: Scanning error - " + errorText);
+                res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
+                res.send(errorText);
             } else {
-                console.log("Query succeeded.");
+                console.log("todoController: Success");
                 console.log('Count: ' + data.Count);
                 data.Items.forEach(function(item) {
                     console.log(" -", item.Task + ": " + item.Status);
                 });
-                return callback(null, data);
+                res.statusCode = HttpStatusCode.OK;
+                res.json(data)
             }
         });  
     }
     catch(err)
     {
         var errorText = JSON.stringify(err, null, 2);
-        console.error("Unknown Error. Error:", errorText);
-        return callback(new Error(errorText));
+        console.log("todoController: Unknown error - " + errorText);
+        res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
+        res.send(errorText);
     }
 };
 
