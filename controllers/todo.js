@@ -12,8 +12,8 @@ exports.readAll = function(req, res, next){
     try
     {
 
-        console.log('Inside Readall - Value for AWS_REGION is:', process.env.AWS_REGION);
-        console.log('Inside Readall - Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
+        console.log('todoController.readall: Value for AWS_REGION is:', process.env.AWS_REGION);
+        console.log('todoController.readall: Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
         
         var AWS = require("aws-sdk");
     
@@ -25,7 +25,7 @@ exports.readAll = function(req, res, next){
 
         var docClient = new AWS.DynamoDB.DocumentClient();
         
-        console.log("Querying all tasks that are not started yet");
+        console.log("todoController.readall: Querying all tasks that are not started yet");
         
         var params = {
             TableName: "todo",
@@ -41,11 +41,11 @@ exports.readAll = function(req, res, next){
         docClient.scan(params, function(err, data) {
             if (err) {
                 var errorText = JSON.stringify(err, null, 2);                
-                console.log("todoController: Scanning error - " + errorText);
+                console.log("todoController.readall: Scanning error - " + errorText);
                 res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
                 res.send(errorText);
             } else {
-                console.log("todoController: Success");
+                console.log("todoController.readall: Success");
                 console.log('Count: ' + data.Count);
                 data.Items.forEach(function(item) {
                     console.log(" -", item.Task + ": " + item.Status);
