@@ -14,15 +14,23 @@ const todoController = require("../controllers/todo");
 var todoRouter = express.Router();
 
 // A GET to the root of a resource returns a list of that resource
-// todoRouter.get("/", function(req, res) { 
-//     var result = todoController.readAll();
-//     res.HttpStatus = HttpStatusCode.OK;
-//     console.log("recd data at router");
-//     console.log(result);
-//     res.send(result);
-// });
-
-todoRouter.get("/", todoController.readAll);
+todoRouter.get("/", function(req, res) { 
+    todoController.readAll(function(error, data){
+        if (error)
+        {
+            console.log("I am in router with error");
+            console.log("Value for HttpStatusCode.INTERNAL_SERVER_ERROR: "+ HttpStatusCode.INTERNAL_SERVER_ERROR);
+            res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
+            res.send(error.stack);
+        }
+        else
+        {
+            console.log("I am in router with success");
+            res.statusCode = HttpStatusCode.OK;
+            res.json(data)
+        }
+    });
+});
 
 // A POST to the root of a resource should create a new object
 todoRouter.post("/", function(req, res) { 
