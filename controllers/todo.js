@@ -11,7 +11,6 @@ const HttpStatusCode = require('http-status-codes');
 exports.readAll = function(req, res, next){
     try
     {
-
         console.log('todoController.readall: Value for AWS_REGION is:', process.env.AWS_REGION);
         console.log('todoController.readall: Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
         
@@ -58,7 +57,7 @@ exports.readAll = function(req, res, next){
     catch(err)
     {
         var errorText = JSON.stringify(err, null, 2);
-        console.log("todoController: Unknown error - " + errorText);
+        console.log("todoController.readall: Unknown error - " + errorText);
         res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
         res.send(errorText);
     }
@@ -68,38 +67,51 @@ exports.read = function(){
     
 };
 
-exports.create = function(){
+exports.create = function(req, res, next){
 
-    var AWS = require("aws-sdk");
+    try{
+        var AWS = require("aws-sdk");
+        
+        AWS.config.update({
+          region: "us-west-2",
+          endpoint: "http://localhost:8000"
+        });
+        
+        var dynamodb = new AWS.DynamoDB();
     
-    AWS.config.update({
-      region: "us-west-2",
-      endpoint: "http://localhost:8000"
-    });
+        var dateTime = require('node-datetime');
+        var dt = dateTime.create();
+        var dtformatted =  dt.format('Y-m-d H:M:S'); //'2017-11-14 17:03:43'
     
-    var dynamodb = new AWS.DynamoDB();
-
-    var dateTime = require('node-datetime');
-    var dt = dateTime.create();
-    var dtformatted = dt.format('Y-m-d H:M:S');
-
-    var params = {
-        TableName: 'todo',
-        Item: {
-          'Task' : {S: 'Task 1 ' + dtformatted},
-          'Status' : {S: 'Not Started'},
-        }
-      };
-      
-      // Call DynamoDB to add the item to the table
-      dynamodb.putItem(params, function(err, data) {
-        if (err) {
-          console.log("Error", err);
-        } else {
-          console.log("Success", data);
-        }
-      });
-    
+        var params = {
+            TableName: 'todo',
+            Item: {
+              'Task' : {S: 'Task 1 ' + dtformatted},
+              'Status' : {S: 'Not Started'},
+            }
+          };
+          
+          // Call DynamoDB to add the item to the table
+          dynamodb.putItem(params, function(err, data) {
+            if (err) {
+                var errorText = JSON.stringify(err, null, 2);                
+                console.log("todoController.create: Error creating item - " + errorText);
+                res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
+                res.send(errorText);
+            } else {
+              console.log("Success", data);
+              res.statusCode = HttpStatusCode.CREATED;
+              res.json(data)
+            }
+          });
+    }
+    catch(err)
+    {
+        var errorText = JSON.stringify(err, null, 2);
+        console.log("todoController.create: Unknown error - " + errorText);
+        res.statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
+        res.send(errorText);
+    }
 };
     
 exports.update = function(){

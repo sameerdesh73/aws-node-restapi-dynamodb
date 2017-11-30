@@ -17,11 +17,7 @@ var todoRouter = express.Router();
 todoRouter.get("/", todoController.readAll);
 
 // A POST to the root of a resource should create a new object
-todoRouter.post("/", function(req, res) { 
-    todoController.create();
-    res.statusCode = HttpStatusCode.CREATED;
-    res.send("todo: Create new")
-});
+todoRouter.post("/", todoController.create);
 
 // We specify a param in our path for the GET of a specific object
 todoRouter.get("/:id", function(req, res) { 
