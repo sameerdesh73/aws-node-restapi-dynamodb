@@ -24,6 +24,12 @@ app.get('/', function(req, res) {
 
 app.use('/v1/todo', todoApiRoute);
 
+// Error handling middleware
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Inteneral Error. ErrorText: ' + err.message)
+})
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT);
