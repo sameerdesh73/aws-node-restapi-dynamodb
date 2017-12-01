@@ -26,6 +26,9 @@ app.use((err, req, res, next) => {
   }
 })
 
+var validator = require('express-validator');
+app.use(validator());
+
 // require our routes/users.js file 
 var todoApiRoute = require("./routes/todo");
 

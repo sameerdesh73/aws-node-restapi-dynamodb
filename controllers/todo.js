@@ -58,14 +58,14 @@ exports.read = function(){
 exports.create = function(req, res, next){
     //throw new Error('sameer try error');
 
-    if(!req.body.taskname) {
-        res.status(HttpStatusCode.BAD_REQUEST).send({message: "Task can not be empty"});
-        return;
-    }
+    req.checkBody("taskname", "taskname can not be empty").notEmpty();
+    req.checkBody("taskname", "taskname must be between 2 and 20 characters").isLength({min:2, max:20});
 
-    // if(len(req.body.taskname)<= 1 || len(req.body.taskname) > 20) {
-    //     res.status(HttpStatusCode.BAD_REQUEST).send({message: "Length for task name is between 2 and 20 characters"});
-    // }
+    var errors = req.validationErrors();
+    if (errors) {
+        res.status(HttpStatusCode.BAD_REQUEST).send(errors);
+        return;
+    } 
 
     var taskname = req.body.taskname;
 
