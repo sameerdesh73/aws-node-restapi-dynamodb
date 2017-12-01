@@ -9,11 +9,22 @@ console.log('Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
 
 var express = require('express');
 var bodyParser = require('body-parser');
+const HttpStatusCode = require('http-status-codes');
+
 
 var app = express();
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json({ type: 'application/json' }));
+
+app.use((err, req, res, next) => {
+  if (err) {
+    console.log('Invalid Request or json data')
+    res.status(HttpStatusCode.BAD_REQUEST).send({message: "Invalid Request or json data"});
+  } else {
+    next()
+  }
+})
 
 // require our routes/users.js file 
 var todoApiRoute = require("./routes/todo");
