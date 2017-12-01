@@ -7,15 +7,16 @@ console.log('Value for AWS_REGION is:', process.env.AWS_REGION);
 console.log('Value for AWS_ENDPOINT is:', process.env.AWS_ENDPOINT);
 
 
+var express = require('express');
+var bodyParser = require('body-parser');
 
+var app = express();
 
-var express        = require('express');
-
-var app            = express();
+// parse requests of content-type - application/json
+app.use(bodyParser.json({ type: 'application/json' }));
 
 // require our routes/users.js file 
 var todoApiRoute = require("./routes/todo");
-
 
 // First example router
 app.get('/', function(req, res) {

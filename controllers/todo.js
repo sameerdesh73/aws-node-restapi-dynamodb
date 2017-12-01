@@ -57,6 +57,18 @@ exports.read = function(){
 
 exports.create = function(req, res, next){
     //throw new Error('sameer try error');
+
+    if(!req.body.taskname) {
+        res.status(HttpStatusCode.BAD_REQUEST).send({message: "Task can not be empty"});
+        return;
+    }
+
+    // if(len(req.body.taskname)<= 1 || len(req.body.taskname) > 20) {
+    //     res.status(HttpStatusCode.BAD_REQUEST).send({message: "Length for task name is between 2 and 20 characters"});
+    // }
+
+    var taskname = req.body.taskname;
+
     var AWS = require("aws-sdk");
 
     AWS.config.update({
@@ -73,7 +85,7 @@ exports.create = function(req, res, next){
     var params = {
         TableName: 'todo',
         Item: {
-            //'Task' : {S: 'Task 1 ' + dtformatted},
+            'Task' : {S: taskname + ' ' + dtformatted},
             'Status' : {S: 'Not Started'},
             }
         };
