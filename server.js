@@ -26,6 +26,8 @@ app.use((err, req, res, next) => {
   }
 })
 
+// You must mount the middleware in your app before you get access to the validation/sanitization methods:
+// https://www.npmjs.com/package/express-validator
 var validator = require('express-validator');
 app.use(validator());
 

@@ -9,6 +9,7 @@ Reference: https://medium.com/@jeffandersen/building-a-node-js-rest-api-with-exp
 const express        = require('express');
 const HttpStatusCode = require('http-status-codes');
 const todoController = require("../controllers/todo");
+const todoValidator = require("../validatior/todo");
 
 // Create the express router object for todos
 var todoRouter = express.Router();
@@ -17,7 +18,7 @@ var todoRouter = express.Router();
 todoRouter.get("/", todoController.readAll);
 
 // A POST to the root of a resource should create a new object
-todoRouter.post("/", todoController.create);
+todoRouter.post("/", todoValidator.create, todoController.create);
 
 // We specify a param in our path for the GET of a specific object
 todoRouter.get("/:id", function(req, res) { 

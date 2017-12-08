@@ -58,15 +58,6 @@ exports.read = function(){
 exports.create = function(req, res, next){
     //throw new Error('sameer try error');
 
-    req.checkBody("taskname", "taskname is required").exists();
-    req.checkBody("taskname", "taskname must be between 2 and 20 characters").isLength({min:2, max:20});
-
-    var errors = req.validationErrors();
-    if (errors) {
-        res.status(HttpStatusCode.BAD_REQUEST).send(errors);
-        return;
-    } 
-
     var taskname = req.body.taskname;
 
     var AWS = require("aws-sdk");
