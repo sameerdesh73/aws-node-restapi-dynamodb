@@ -1,6 +1,7 @@
 REST API with NodeJS, Express and DynanoDB 
 
 What you will need to install
+======================
 Python/PIP
 AWS CLI - http://docs.aws.amazon.com/cli/latest/userguide/installing.html
 DynamoDB - http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html
@@ -39,3 +40,11 @@ aws dynamodb delete-table --table-name todo --endpoint-url http://localhost:8000
 
 To create new table
 node ./scripts/createtodotable.js -- confirm that dynamodb is running
+
+
+To start program
+======================
+
+npm start
+or
+node server.js
